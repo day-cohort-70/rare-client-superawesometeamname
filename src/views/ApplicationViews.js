@@ -1,17 +1,31 @@
-import { Route, Routes } from "react-router-dom"
-import { Login } from "../components/auth/Login"
-import { Register } from "../components/auth/Register"
-import { Authorized } from "./Authorized"
+
+import { Routes, Route } from 'react-router-dom';
+import { Login } from "../components/auth/Login"; // Make sure to import Login component
+import { Register } from "../components/auth/Register";
+import { Authorized } from "./Authorized";
+import { NewPost } from '../components/home/NewPost.jsx';
+//import { AdminHome } from "../components/home/AdminHome.jsx"
+{/* 
+import { AllPosts } from "../components/AllPosts"; 
+import { MyPosts } from "../components/MyPosts"; 
+import { CategoryManager } from "../components/CategoryManager"; 
+import { TagManager } from "../components/TagManager"; 
+import { UserManager } from "../components/UserManager"; */}
 
 export const ApplicationViews = ({ token, setToken }) => {
-  return <>
+  return (
     <Routes>
-      <Route path="/login" element={<Login setToken={setToken} />}  />
-      <Route path="/register" element={<Register setToken={setToken} />}  />
+      <Route path="/login" element={<Login setToken={setToken} />} />
+      <Route path="/register" element={<Register setToken={setToken} />} />
       <Route element={<Authorized token={token} />}>
-        {/* Add Routes here */}
-        
+        <Route index element={<NewPost token={token} setToken={setToken}/>} />
+        {/* Add Routes here 
+        <Route path="/allposts" element={<AllPosts />} />
+        <Route path="/myposts" element={<MyPosts />} />
+        <Route path="/categorymanager" element={<CategoryManager />} />
+        <Route path="/tagmanager" element={<TagManager />} />
+        <Route path="/usermanager" element={<UserManager />} />*/}
       </Route>
     </Routes>
-  </>
-}
+  );
+};
