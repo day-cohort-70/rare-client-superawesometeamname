@@ -5,15 +5,14 @@ import { Register } from "../components/auth/Register"
 import { Authorized } from "./Authorized"
 import { UserProfiles } from "../components/users/UserProfiles.js"
 import { NewPost } from '../components/home/NewPost.jsx';
-
+import { TagsPage } from "../components/tags/TagsPage.jsx"
 
 
 {/* 
 import { AdminHome } from "../components/home/AdminHome.jsx"
 import { AllPosts } from "../components/AllPosts"; 
 import { MyPosts } from "../components/MyPosts"; 
-import { CategoryManager } from "../components/CategoryManager"; 
-import { TagManager } from "../components/TagManager"; 
+import { CategoryManager } from "../components/CategoryManager";  
 import { UserManager } from "../components/UserManager"; 
 */}
 
@@ -26,12 +25,12 @@ export const ApplicationViews = ({ token, setToken }) => {
       <Route element={<Authorized token={token} />}>
 
         <Route index element={<NewPost token={token} setToken={setToken}/>} />
-        <Route path="/UserProfiles" element={<UserProfiles />}/>
+        <Route path="/UserProfiles" element={<UserProfiles />} />
+        <Route path="/tagmanager" element={<TagsPage />} />
         {/* Add Routes here 
         <Route path="/allposts" element={<AllPosts />} />
         <Route path="/myposts" element={<MyPosts />} />
         <Route path="/categorymanager" element={<CategoryManager />} />
-        <Route path="/tagmanager" element={<TagManager />} />
         <Route path="/usermanager" element={<UserManager />} />*/}
 
       </Route>
