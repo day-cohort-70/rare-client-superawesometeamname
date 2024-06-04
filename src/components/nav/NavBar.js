@@ -31,11 +31,16 @@ export const NavBar = ({ token, setToken }) => {
 
       <div className="navbar-menu" ref={navbar}>
         <div className="navbar-start">
+
+
           {token && <Link to="/allposts" className="navbar-item">All Posts</Link>}
           {token && <Link to="/myposts" className="navbar-item">My Posts</Link>}
           {token && <Link to="/categorymanager" className="navbar-item">Category Manager</Link>}
           {token && <Link to="/tagmanager" className="navbar-item">Tag Manager</Link>}
           {token && <Link to="/usermanager" className="navbar-item">User Manager</Link>}
+          {token && <Link to="/" className="navbar-item">Posts</Link>}
+          {token && <Link to="/UserProfiles" className="navbar-item">User Profiles</Link>}
+
         </div>
 
         <div className="navbar-end">
