@@ -9,6 +9,7 @@ export const createPost = (newPost) => {
   });
 };
 
+
 export const createACategory = (CatData) =>{
   return fetch(`http://localhost:8088/categories`, {
     method: "POST",
@@ -29,4 +30,20 @@ export const getAllCategories = () =>{
     body: JSON.stringify()
   }).then(res => res.json())
 }
+
+
+//.then((res) => res.json());
+
+export const getUserPosts = async (token) => {
+  return await fetch(
+    `http://localhost:8088/posts?user_id=${token}&expand=user&expand=categories`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    }
+  ).then((res) => res.json());
+};
 

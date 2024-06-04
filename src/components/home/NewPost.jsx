@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPost } from "../../managers/PostManager"; // Adjust the path as needed
+import { PostDetail } from "./PostDetail.jsx";
 
 export const NewPost = ({ token }) => {
   const title = useRef();
