@@ -23,12 +23,7 @@ export const ApplicationViews = ({ token, setToken }) => {
         <Route path="/" element={<AdminHome token={token} setToken={setToken} />} />
         <Route path="/myposts" element={<MyPosts token={token} />} />
         <Route path="/tagmanager" element={<TagsPage />} />
-        <Route path="usermanager" element={<UserManager />} />*/      
-        {/* Add Routes here 
-        <Route path="/allposts" element={<AllPosts />} />
-        <Route path="/myposts" element={<MyPosts />} />
-        <Route path="/categorymanager" element={<CategoryManager />} />
-        <Route path="/usermanager" element={<UserManager />} />*/}
+        <Route path="usermanager" element={<UserProfiles />} />
       </Route>
     </Routes>
   );
