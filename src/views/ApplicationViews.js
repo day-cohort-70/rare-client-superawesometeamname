@@ -9,33 +9,26 @@ import { AdminHome } from '../components/home/AdminHome';
 import { MyPosts } from '../components/home/MyPosts';
 import { UserProfiles } from "../components/users/UserProfiles.js"
 import { NewPost } from '../components/home/NewPost.jsx';
-
-
-
-
-
-
+import { PostDetail } from '../components/home/PostDetail';
 
 
 export const ApplicationViews = ({ token, setToken }) => {
   return (
     <Routes>
+      {/* Public Routes */}
       <Route path="/login" element={<Login setToken={setToken} />} />
       <Route path="/register" element={<Register setToken={setToken} />} />
+
+      {/* Protected Routes */}
       <Route element={<Authorized token={token} />}>
         <Route path="/" element={<AdminHome token={token} setToken={setToken} />} />
-        <Route path="/myposts" element={<MyPosts token={token} />} />
+        <Route path="/posts" element={<MyPosts token={token} />} />
+        <Route path="/posts/:post_id" element={<PostDetail token={token} />} /> {/* Add route for PostDetail */}
         {/* Uncomment these routes as needed */}
-        {/*<Route path="allposts" element={<AllPosts />} /> */}
-        {/*<Route path="categorymanager" element={<CategoryManager />} />
-        <Route path="tagmanager" element={<TagManager />} />
-        <Route path="usermanager" element={<UserManager />} />*/      
-        {/* Add Routes here 
-        <Route path="/allposts" element={<AllPosts />} />
-        <Route path="/myposts" element={<MyPosts />} />
-        <Route path="/categorymanager" element={<CategoryManager />} />
-        <Route path="/tagmanager" element={<TagManager />} />
-        <Route path="/usermanager" element={<UserManager />} />*/}
+        {/* <Route path="/allposts" element={<AllPosts />} /> */}
+        {/* <Route path="/categorymanager" element={<CategoryManager />} /> */}
+        {/* <Route path="/tagmanager" element={<TagManager />} /> */}
+        {/* <Route path="/usermanager" element={<UserManager />} /> */}
       </Route>
     </Routes>
   );
