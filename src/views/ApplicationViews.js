@@ -10,7 +10,8 @@ import { MyPosts } from '../components/home/MyPosts';
 import { UserProfiles } from "../components/users/UserProfiles.js"
 import { NewPost } from '../components/home/NewPost.jsx';
 import { PostDetail } from '../components/home/PostDetail';
-
+import { DisplayCategoryManager } from "../components/website-posts/CatManager.jsx"
+import { TagsPage } from "../components/tags/TagsPage.jsx"
 
 export const ApplicationViews = ({ token, setToken }) => {
   return (
@@ -23,12 +24,10 @@ export const ApplicationViews = ({ token, setToken }) => {
       <Route element={<Authorized token={token} />}>
         <Route path="/" element={<AdminHome token={token} setToken={setToken} />} />
         <Route path="/posts" element={<MyPosts token={token} />} />
-        <Route path="/posts/:post_id" element={<PostDetail token={token} />} /> {/* Add route for PostDetail */}
-        {/* Uncomment these routes as needed */}
-        {/* <Route path="/allposts" element={<AllPosts />} /> */}
-        {/* <Route path="/categorymanager" element={<CategoryManager />} /> */}
-        {/* <Route path="/tagmanager" element={<TagManager />} /> */}
-        {/* <Route path="/usermanager" element={<UserManager />} /> */}
+        <Route path="/posts/:post_id" element={<PostDetail token={token} />} />
+        <Route path="/categorymanager" element={<DisplayCategoryManager />} />
+        <Route path="/tagmanager" element={<TagsPage />} />
+        <Route path="usermanager" element={<UserProfiles />} />
       </Route>
     </Routes>
   );
