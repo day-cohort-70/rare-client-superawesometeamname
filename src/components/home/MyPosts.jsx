@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUserPosts } from "../../managers/PostManager.jsx";
-import { PostDetail } from "./PostDetail.jsx";
 import 'bulma/css/bulma.min.css';  // Make sure to import Bulma if not already done in index.js
 
 export const MyPosts = ({ token }) => {

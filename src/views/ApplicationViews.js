@@ -10,8 +10,8 @@ import { MyPosts } from '../components/home/MyPosts';
 import { UserProfiles } from "../components/users/UserProfiles.js"
 import { NewPost } from '../components/home/NewPost.jsx';
 import { PostDetail } from '../components/home/PostDetail';
-import { DisplayCategoryManager } from "../components/website-posts/CatManager.jsx"
 import { TagsPage } from "../components/tags/TagsPage.jsx"
+import { DisplayCategoryManager } from '../components/catagories/CatManager.jsx';
 
 export const ApplicationViews = ({ token, setToken }) => {
   return (
