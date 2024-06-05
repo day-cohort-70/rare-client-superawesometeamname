@@ -1,57 +1,53 @@
-import { useState, useEffect } from "react"
-import { getAllCategories } from "../../managers/PostManager.jsx";
+import { useState, useEffect } from "react";
+import { getAllCategories } from "../../managers/CategoryManager.jsx";
 
 export const DisplayCategoryManager = () => {
-    const [allCategories, setAllCategories] = useState([])
-    const [newCategory, setNewCategory] = useState('')
-    const [isModalOpen, setIsModalOpen] = useState(false)
+  const [allCategories, setAllCategories] = useState([]);
+  const [newCategory, setNewCategory] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-    useEffect(() => {
-      getAllCategories().then(setAllCategories)
-    }, [])
-
+  useEffect(() => {
+    getAllCategories().then(setAllCategories);
+  }, []);
 
   const handleCreateCategory = async () => {
     try {
       const response = await fetch("http://localhost:8088/categories", {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ label: newCategory }),
       });
 
       if (response.ok) {
         setIsModalOpen(false);
-        setNewCategory('');
-        getAllCategories().then(data => setAllCategories(data));
+        setNewCategory("");
+        getAllCategories().then((data) => setAllCategories(data));
       } else {
-        console.error('Error creating Category:', response.statusText);
+        console.error("Error creating Category:", response.statusText);
       }
     } catch (error) {
-      console.error('Error creating Category:', error);
+      console.error("Error creating Category:", error);
     }
   };
-    
+
   return (
     <div className="container">
       <div className="columns">
         <div className="column">
           <h2 className="title has-text-centered">Categories</h2>
-          
+
           {allCategories.map((category) => (
             <div key={category.id} className="columns is-centered">
               <div className="column is-half">
-                <div className="box has-text-centered">
-                  {category.label}
-                </div>
+                <div className="box has-text-centered">{category.label}</div>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      
       <div className="columns is-centered">
         <div className="column is-narrow">
           <button
@@ -64,7 +60,7 @@ export const DisplayCategoryManager = () => {
       </div>
 
       {/* Bulma modal */}
-      <div className={`modal ${isModalOpen ? 'is-active' : ''}`}>
+      <div className={`modal ${isModalOpen ? "is-active" : ""}`}>
         <div className="modal-background"></div>
         <div className="modal-content">
           <div className="box">

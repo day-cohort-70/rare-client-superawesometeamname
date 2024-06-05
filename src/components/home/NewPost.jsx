@@ -1,49 +1,57 @@
 import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPost } from "../../managers/PostManager"; // Adjust the path as needed
-import { PostDetail } from "./PostDetail.jsx";
+import { getAllCategories } from "../../managers/CategoryManager.jsx";
+import { getAllTags } from "../../managers/TagsManager.js";
 
 export const NewPost = ({ token }) => {
-  const title = useRef();
-  const imageUrl = useRef();
-  const content = useRef();
-  const category = useRef();
+  const titleRef = useRef(null);
+  const contentRef = useRef(null);
+  const categoryRef = useRef(null);
+  const tagRefs = useRef({}); //tagRefs.current is an object where each key is the ID of a tag, and the value is the reference to the checkbox input element for that tag.
+  const imageRef = useRef();
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
+  const [tags, setTags] = useState([]);
 
   useEffect(() => {
-    // Fetch categories from the API
-    // In this example, we'll use a static array of categories instead
-    const categoriesData = [
-      { id: 1, name: "Category 1" },
-      { id: 2, name: "Category 2" },
-      { id: 3, name: "Category 3" },
-    ];
-    setCategories(categoriesData);
+    getAllCategories().then(setCategories);
+    getAllTags().then(setTags);
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const selectedTags = Object.keys(tagRefs.current) //This retrieves an array of all the keys (IDs) of the tagRefs object. Each key corresponds to the ID of a tag.
+      .filter((key) => tagRefs.current[key].checked) //This filters the keys based on whether the corresponding checkbox is checked. It checks each checkbox reference stored in tagRefs.current (using the keys) and returns only the keys where the checkbox is checked.
+      .map((key) => parseInt(key)); //This maps the filtered keys (which represent the IDs of the checked tags) into an array of integers (tag IDs). The parseInt function is used to convert each key (which is a string) into an integer.
+
     const newPost = {
       user_id: token, // Use the token as the user_id
-      category_id: category.current.value,
-      title: title.current.value,
+      category_id: categoryRef.current.value,
+      title: titleRef.current.value,
       publication_date: new Date().toISOString(), // Use current time
-      image_url: imageUrl.current.value,
-      content: content.current.value,
+      image_url: imageRef.current.value,
+      content: contentRef.current.value,
       approved: true,
+      tag_ids: selectedTags, //array of tags that are checked
     };
 
-    createPost(newPost).then(() => {
+    createPost(newPost).then((response) => {
+      console.log(response);
+      const postId = response.token;
       // Clear the form fields
-      title.current.value = "";
-      imageUrl.current.value = "";
-      content.current.value = "";
-      category.current.value = "";
+      titleRef.current.value = "";
+      imageRef.current.value = "";
+      contentRef.current.value = "";
+      categoryRef.current.value = "";
+      Object.values(tagRefs.current).forEach(
+        //re-sets all values to false
+        (checkbox) => (checkbox.checked = false)
+      );
 
       // Redirect to homepage after successful post creation
-      navigate("/");
+      navigate(`/posts/${postId}`);
     });
   };
 
@@ -56,21 +64,21 @@ export const NewPost = ({ token }) => {
         <div className="field">
           <label className="label">Title</label>
           <div className="control">
-            <input className="input" type="text" ref={title} required />
+            <input className="input" type="text" ref={titleRef} required />
           </div>
         </div>
 
         <div className="field">
           <label className="label">Image URL</label>
           <div className="control">
-            <input className="input" type="text" ref={imageUrl} />
+            <input className="input" type="text" ref={imageRef} />
           </div>
         </div>
 
         <div className="field">
           <label className="label">Content</label>
           <div className="control">
-            <textarea className="textarea" ref={content} required></textarea>
+            <textarea className="textarea" ref={contentRef} required></textarea>
           </div>
         </div>
 
@@ -78,14 +86,32 @@ export const NewPost = ({ token }) => {
           <label className="label">Category</label>
           <div className="control">
             <div className="select">
-              <select ref={category} required>
+              <select ref={categoryRef} required>
                 <option value="">Select a category</option>
                 {categories.map((cat) => (
                   <option key={cat.id} value={cat.id}>
-                    {cat.name}
+                    {cat.label}
                   </option>
                 ))}
               </select>
+            </div>
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="label">Tags</label>
+          <div className="control">
+            <div className="tags">
+              {tags.map((tag) => (
+                <label key={tag.id} className="tag">
+                  <input
+                    type="checkbox"
+                    ref={(el) => (tagRefs.current[tag.id] = el)} //This line creates an input element of type checkbox. It allows users to select or deselect a tag. The ref attribute is used to store a reference to each checkbox element in the tagRefs object, allowing access to them later. The value attribute is set to the id of the tag.
+                    value={tag.id}
+                  />
+                  <span style={{ marginLeft: "5px" }}>{tag.label}</span>
+                </label>
+              ))}
             </div>
           </div>
         </div>
@@ -101,42 +127,3 @@ export const NewPost = ({ token }) => {
     </section>
   );
 };
-
-/*import { useState, useEffect } from "react";
-import { getUserPosts } from "../../managers/PostManager.jsx";
-
-export const AdminHome = (token = { token }, setToken = { setToken }) => {
-  const [userPosts, setUserPosts] = useState([]);
-
-  useEffect(() => {
-    //get all posts
-    getUserPosts(token).then((data) => {
-      setUserPosts(data);
-    });
-  }, [userPosts]);
-
-  return (
-    <div className="container">
-      <h2>Hello</h2>
-      
-      {userPosts.map((post) => (
-        <div key={post.id} className="card">
-          <div className="card-content">
-            <p className="title is-4">{post.title}</p>
-            <p className="subtitle is-6 has-text-right">
-              {post.publication_date}
-            </p>
-          </div>
-          <div className="card-image">
-            <figure className="image is-4by3">
-              <img src={post.image_url} alt="Post" />
-            </figure>
-          </div>
-          <div className="card-content">
-            <p className="subtitle is-6">Author: {post.author}</p>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-};*/
