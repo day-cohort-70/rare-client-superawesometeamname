@@ -1,15 +1,23 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { getUserPosts } from "../../managers/PostManager.jsx";
+import { PostDetail } from "./PostDetail.jsx";
+import 'bulma/css/bulma.min.css';  // Make sure to import Bulma if not already done in index.js
 
 export const MyPosts = ({ token }) => {
   const [posts, setPosts] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getUserPosts(token).then((data) => {
       setPosts(data);
     });
   }, [token]);
+
+  const handlePostClick = (postId) => {
+    console.log(postId)
+    navigate(`/posts/${postId}`);
+  };
 
   return (
     <section className="section">
@@ -21,33 +29,17 @@ export const MyPosts = ({ token }) => {
           <div className="columns is-multiline">
             {posts.map((post) => (
               <div key={post.id} className="column is-one-third">
-                <div className="card">
+                <div className="card" onClick={() => handlePostClick(post.id)} style={{ cursor: 'pointer' }}>
                   <div className="card-content">
                     <div className="media">
                       <div className="media-content">
-                        <p className="title is-4" style={{ float: "left" }}>
-                          {post.title}
-                        </p>
-                        <p className="is-size-7" style={{ float: "right" }}>
-                          {new Date(post.publication_date).toLocaleDateString()}
-                        </p>
+                        <p className="title is-4">{post.title}</p>
                       </div>
                     </div>
-                    {post.image_url && (
-                      <div className="content has-text-centered">
-                        <figure
-                          className="image is-4by3"
-                          style={{ margin: "auto" }}
-                        >
-                          <img src={post.image_url} alt={post.title} />
-                        </figure>
-                      </div>
-                    )}
                     <div className="media">
                       <div className="media-content">
-                        <p className="is-size-7" style={{ float: "left" }}>
-                          Author: {post.user.first_name} {post.user.last_name}
-                        </p>
+                        <p className="is-size-7">Author: {post.user.first_name} {post.user.last_name}</p>
+                        <p className="is-size-7">Category: {post.categories.label}</p>
                       </div>
                     </div>
                   </div>
@@ -60,3 +52,5 @@ export const MyPosts = ({ token }) => {
     </section>
   );
 };
+
+
