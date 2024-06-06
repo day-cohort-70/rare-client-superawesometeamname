@@ -1,6 +1,6 @@
 
 export const getAllUsers = () => {
-    return fetch("http://localhost:8088/Users", {
+    return fetch("http://localhost:8088/users", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
