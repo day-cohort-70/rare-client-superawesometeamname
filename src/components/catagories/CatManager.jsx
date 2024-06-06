@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getAllCategories } from "../../managers/PostManager.jsx";
+import { getAllCategories } from "../../managers/CategoryManager.jsx";
 
 export const DisplayCategoryManager = () => {
   const [allCategories, setAllCategories] = useState([]);
