@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUserPosts } from "../../managers/PostManager.jsx";
-<<<<<<< HEAD
-import 'bulma/css/bulma.min.css';  // Make sure to import Bulma if not already done in index.js
-=======
 import { FaPlus } from "react-icons/fa"; // Importing the FaPlus icon from react-icons/fa
 import "bulma/css/bulma.min.css"; // Make sure to import Bulma if not already done in index.js
->>>>>>> main
 
 export const MyPosts = ({ token }) => {
   const [posts, setPosts] = useState([]);
