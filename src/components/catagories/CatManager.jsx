@@ -76,6 +76,26 @@ export const DisplayCategoryManager = () => {
     setEditingCategory(null);
   };
 
+  const handleDeleteCategory = async (categoryId) =>{
+    try {
+      const response = await fetch(`http://localhost:8088/categories/${categoryId}`, {
+        method: "DELETE",
+      });
+  
+      if (response.ok) {
+        const updatedCategories = allCategories.filter((category) => category.id !== categoryId)
+          setAllCategories(updatedCategories);
+      } else {
+        console.error("Error deleting Category:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error deleting Category:", error);
+    }
+  };
+
+
+  
+
   return (
     <div className="container">
       <div className="columns">
@@ -93,6 +113,13 @@ export const DisplayCategoryManager = () => {
                         onClick={() => handleEditCategory(category)}
                       >
                         Edit
+                      </button>
+
+                      <button
+                        className="button is-small is-info"
+                        onClick={() => handleDeleteCategory(category.id)}
+                      >
+                        Delete
                       </button>
                     </div>
                   </div>
