@@ -1,0 +1,23 @@
+.author-and-comment {
+    display: flex;
+    align-items: center;
+  }
+  
+  .author-info {
+    flex: 1; /* Take up remaining space */
+  }
+  
+  .comment-container {
+    margin-right: 1rem; /* Add spacing between the author and the button */
+  }
+  
+  .author {
+    margin: 0; /* Ensure no additional margin */
+  }
+  
+  .add-comment-button {
+    display: flex;
+    align-items: center; /* Center the icon and text vertically */
+  }
+  
+  
