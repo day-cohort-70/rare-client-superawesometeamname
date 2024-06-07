@@ -1,23 +1,27 @@
 import React, { useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { createComment } from "../../managers/CommentManager.jsx";
 import "bulma/css/bulma.min.css";
+import { createComment } from "../../managers/CommentManager.jsx";
 
 export const CreateComment = ({ token }) => {
   const { post_id } = useParams();
   const contentRef = useRef();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newComment = {
       post_id,
       author_id: token, // Assume the token is the user ID
       content: contentRef.current.value,
     };
-    const response = createComment(newComment);
-    // Redirect to post comment list after successful comment creation
-    navigate(`/comments/${post_id}`);
+    try {
+      await createComment(newComment);
+      // Redirect to post comment list after successful comment creation
+      navigate(`/comments/${post_id}`);
+    } catch (error) {
+      console.error("Failed to create comment:", error.message);
+    }
   };
 
   return (

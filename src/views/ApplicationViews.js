@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Login } from "../components/auth/Login";
@@ -11,6 +9,8 @@ import { UserProfiles } from "../components/users/UserProfiles.js"
 import { NewPost } from '../components/home/NewPost.jsx';
 import { PostDetail } from '../components/home/PostDetail';
 import { TagsPage } from "../components/tags/TagsPage.jsx"
+import { CreateComment } from '../components/comments/CreateComment.jsx';
+import { PostCommentList } from '../components/comments/PostCommentList.jsx';
 import { DisplayCategoryManager } from '../components/catagories/CatManager.jsx';
 
 export const ApplicationViews = ({ token, setToken }) => {
@@ -26,6 +26,8 @@ export const ApplicationViews = ({ token, setToken }) => {
         <Route path="/posts" element={<MyPosts token={token} />} />
         <Route path="/newpost" element={<NewPost token={token} />} />
         <Route path="/posts/:post_id" element={<PostDetail token={token} />} />
+        <Route path="/comment/:post_id" element={<CreateComment token={token} />} />
+        <Route path="/comments/:post_id" element={<PostCommentList />} />
         <Route path="/categorymanager" element={<DisplayCategoryManager />} />
         <Route path="/tagmanager" element={<TagsPage />} />
         <Route path="usermanager" element={<UserProfiles />} />
