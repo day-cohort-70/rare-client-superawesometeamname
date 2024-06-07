@@ -13,7 +13,7 @@ export const TagsPage = () => {
 
   const handleCreateTag = async () => {
     try {
-      const response = await fetch("http://localhost:8088/Tags", {
+      const response = await fetch("http://localhost:8088/tags", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -42,7 +42,7 @@ export const TagsPage = () => {
 
   const handleUpdateTag = async () => {
     try {
-      const response = await fetch(`http://localhost:8088/Tags/${editingTag.id}`, {
+      const response = await fetch(`http://localhost:8088/tags/${editingTag.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -72,6 +72,23 @@ export const TagsPage = () => {
     setEditingTag(null);
   };
 
+  const handleDeleteTag = async (tagId) => {
+    try {
+      const response = await fetch(`http://localhost:8088/tags/${tagId}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        const updatedTags = allTags.filter((tag) => tag.id !== tagId);
+        setAllTags(updatedTags);
+      } else {
+        console.error("Error deleting tag:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error deleting tag:", error);
+    }
+  };
+
   return (
     <div className="container">
       <div className="columns">
@@ -89,6 +106,12 @@ export const TagsPage = () => {
                         onClick={() => handleEditTag(tag)}
                       >
                         Edit
+                      </button>
+                      <button
+                        className="button is-small is-danger ml-2"
+                        onClick={() => handleDeleteTag(tag.id)}
+                      >
+                        Delete
                       </button>
                     </div>
                   </div>
