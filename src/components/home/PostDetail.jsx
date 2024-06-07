@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getPostById } from "../../managers/PostManager.jsx";
+import { FaComment } from "react-icons/fa";
 import "bulma/css/bulma.min.css";
+import "./PostDetail.css";
 
 export const PostDetail = ({ token }) => {
-  const { post_id } = useParams(); // Ensure you are getting postId correctly
+  const { post_id } = useParams();
   const [post, setPost] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getPostById(post_id).then((data) => {
@@ -16,6 +19,10 @@ export const PostDetail = ({ token }) => {
   if (!post) {
     return <p>Loading...</p>;
   }
+
+  const handleAddComment = () => {
+    navigate(`/comment/${post_id}`);
+  };
 
   return (
     <section className="section">
@@ -29,12 +36,24 @@ export const PostDetail = ({ token }) => {
                   <figure className="image">
                     <img src={post.image_url} alt="Post" />
                   </figure>
-                  <p>
-                    <strong>Author:</strong>{" "}
-                    {post.user
-                      ? `${post.user.first_name} ${post.user.last_name}`
-                      : "Unknown"}
-                  </p>
+                  <div className="columns is-vcentered is-mobile">
+                    <div className="column is-half">
+                      <p className="author">
+                        <strong>Author:</strong>{" "}
+                        {post.user
+                          ? `${post.user.first_name} ${post.user.last_name}`
+                          : "Unknown"}
+                      </p>
+                    </div>
+                    <div className="column is-half has-text-right">
+                      <button
+                        className="button is-link is-small"
+                        onClick={handleAddComment}
+                      >
+                        <FaComment style={{ marginRight: "5px" }} /> Add Comment
+                      </button>
+                    </div>
+                  </div>
                   {post.categories && (
                     <p>
                       <strong>Category:</strong> {post.categories.label}
